@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Velerito Choco</title>
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-blue: #1A4B84;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f9f9f9;
+            --text-main: #333;
+            --premium-gold: #D4AF37;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            background-image: url('images/fndo.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 20px 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Ajuste para el logo rojo */
+        .logo {
+            width: 80px;
+            height: auto;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        h1 {
+            color: var(--primary-red);
+            font-size: 32px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        p.subtitle {
+            font-size: 15px;
+            color: var(--text-main);
+            font-style: italic;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Contenedor principal centrado */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column; /* Cambiado a column para que el botón de abajo no se ponga a los lados */
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        .choice-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        @media (min-width: 768px) {
+            .choice-grid {
+                flex-direction: row;
+                max-width: 800px;
+            }
+        }
+
+        /* Tarjetas de Selección */
+        .choice-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 3px solid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex: 1;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        /* Estilo Alimentos (Rojo) */
+        .choice-card.alimentos {
+            border-color: var(--primary-red);
+        }
+
+        .choice-card.alimentos .card-text {
+            color: var(--primary-red);
+        }
+
+        .choice-card.alimentos:hover {
+            background: var(--primary-red);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.3);
+        }
+
+        /* Estilo Bebidas (Azul) */
+        .choice-card.bebidas {
+            border-color: var(--primary-blue);
+        }
+
+        .choice-card.bebidas .card-text {
+            color: var(--primary-blue);
+        }
+
+        .choice-card.bebidas:hover {
+            background: var(--primary-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(26, 75, 132, 0.3);
+        }
+
+        .choice-card:hover .card-text {
+            color: white;
+        }
+
+        .card-icon {
+            font-size: 65px;
+            line-height: 1;
+        }
+
+        .card-text {
+            font-size: 22px;
+            font-weight: bold;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ESTILO DEL BOTÓN DE INICIO AL FINAL */
+        .index-link-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-index-link {
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-index-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 75, 132, 0.4);
+        }
+
+        .btn-index-link:active {
+            transform: scale(0.95);
+        }
+
+        /* Footer Negro y Redes */
+        footer {
+            background-color: var(--dark-bg);
+            color: #ccc;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 0.9em;
+            border-top: 3px solid var(--primary-red);
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        .social-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--primary-red);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="images/logo.svg" alt="Logo Velerito" class="logo" onerror="this.src='logo.svg'">
+            <div class="header-text">
+                <h1>Velerito</h1>
+                <p class="subtitle">Cocina del mar en Laja, Leña y Carbón</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container fade-in">
+        <div class="choice-grid">
+            <a href="cocina-velerito.html" class="choice-card alimentos">
+                <div class="card-icon">🍽️</div>
+                <div class="card-text">Menú de<br>Alimentos</div>
+            </a>
+
+            <a href="bebidas-velerito.html" class="choice-card bebidas">
+                <div class="card-icon">🍹</div>
+                <div class="card-text">Menú de<br>Bebidas</div>
+            </a>
+        </div>
+
+        <div class="index-link-container">
+            <a href="index.html" class="btn-index-link">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Todos los precios incluyen IVA. La propina no es obligatoria, se gana a través del buen servicio.</p>
+        <p>Se aceptan tarjetas (VISA, MASTERCARD y AMERICAN EXPRESS). El precio es el mismo pagando en efectivo o con
+            tarjeta.</p>
+    </footer>
+
+</body>
+
+</html>

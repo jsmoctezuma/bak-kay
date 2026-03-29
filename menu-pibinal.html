@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Pibinal</title>
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-blue: #1A4B84;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f9f9f9;
+            --text-main: #333;
+            --premium-gold: #D4AF37;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            background-image: url('images/fndpibi.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 15px 15px 0 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        h1 {
+            color: var(--primary-red);
+            font-size: 28px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            color: var(--primary-red);
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Botón Volver y Botón Inferior */
+        .back-btn-container {
+            display: none;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .back-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #b71c1c;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(211, 47, 47, 0.4);
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ESTILO PARA EL BOTÓN DE INICIO AL FINAL DE LA CUADRÍCULA */
+        .index-footer-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            margin-top: 10px;
+        }
+
+        .btn-index {
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-index:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 75, 132, 0.4);
+        }
+
+        .btn-index:active {
+            transform: scale(0.95);
+        }
+
+        .nav-wrapper {
+            display: none;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding: 5px 0;
+        }
+
+        .scroll-arrow {
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        nav {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 5px 0;
+            flex-grow: 1;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cat-btn.active {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        .cat-btn.premium {
+            border-color: var(--premium-gold);
+            color: var(--premium-gold);
+        }
+
+        .cat-btn.premium.active {
+            background: var(--premium-gold);
+            color: white;
+        }
+
+        .spicy-legend {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary-red);
+            border-bottom: 1px dashed var(--primary-red);
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .home-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .home-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        .home-card:active {
+            transform: scale(0.95);
+        }
+
+        .home-card.premium {
+            border-color: var(--premium-gold);
+        }
+
+        .grid-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .grid-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            transition: color 0.3s;
+        }
+
+        .home-card.premium .grid-text {
+            color: var(--premium-gold);
+        }
+
+        .home-card:hover {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.3);
+        }
+
+        .home-card.premium:hover {
+            background: var(--premium-gold);
+            border-color: var(--premium-gold);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .home-card:hover .grid-text {
+            color: white;
+        }
+
+        .menu-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .category-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .category-title {
+            color: var(--primary-red);
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title.premium-title {
+            color: var(--premium-gold);
+            border-bottom-color: var(--premium-gold);
+        }
+
+        .category-desc {
+            font-size: 14px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-info { width: 75%; }
+        .item-name { font-weight: bold; font-size: 16px; margin-bottom: 2px; color: var(--text-main); }
+        .item-desc { font-size: 13px; color: var(--primary-blue); font-style: italic; margin-top: 3px; }
+        .item-price { font-weight: bold; color: var(--primary-blue); font-size: 16px; text-align: right; width: 25%; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--dark-bg);
+            color: #ccc;
+            font-size: 12px;
+            margin-top: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="images/logopibi.svg" alt="Logo Pibinal" class="logo">
+            <div class="header-text">
+                <h1>Menú PIBINAL</h1>
+                <p class="subtitle" style="color: var(--primary-blue);">Desayunos & Comidas</p>
+            </div>
+        </div>
+
+        <div class="back-btn-container" id="back-container">
+            <button class="back-btn" onclick="showHome()">🏠 Menú Principal</button>
+        </div>
+
+        <div class="nav-wrapper" id="nav-wrapper">
+            <button class="scroll-arrow" onclick="scrollNav(-150)">❮</button>
+            <nav id="category-nav"></nav>
+            <button class="scroll-arrow" onclick="scrollNav(150)">❯</button>
+        </div>
+    </header>
+
+    <div class="spicy-legend" id="spicy-legend">
+        "Enterrados Chocos" en el Edén
+    </div>
+
+    <div id="chef-message" style="text-align: center; margin: 20px auto 10px auto; font-size: 16px; color: var(--primary-blue); font-weight: bold; max-width: 800px; padding: 0 15px;">
+        <p>Martes a Domingo de 8:00am a 4:00pm</p>
+        <p style="font-style: italic;">by: Fernando Marrufo</p>
+    </div>
+
+    <div id="home-view" class="home-grid">
+        <div class="index-footer-container" id="index-footer">
+            <a href="index.html" class="btn-index">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="menu-container" id="menu-content"></div>
+    
+    <footer>
+        <p>Todos los precios incluyen IVA. La propina no es obligatoria.</p>
+        <p>Se aceptan tarjetas (VISA, MASTERCARD y AMERICAN EXPRESS).</p>
+    </footer>
+
+    <script>
+        const menuData = [
+            { "icon": "🍳", "category": "Platos", "items": [{ "name": "Plato con Frutas Tropicales", "price": "$125" }, { "name": "Dip de Tumbapato", "price": "$250", "desc": "Con longaniza y chile amashito" }, { "name": "Platanitos Rellenos", "price": "$120" }, { "name": "Huevos Montados", "price": "$195" }, { "name": "Choculeños Tradicionales", "price": "$195" }, { "name": "Huevos de la Granja", "price": "$145" }, { "name": "Chocodictinos", "price": "$195" }, { "name": "Huevos Rotos", "price": "$175" }, { "name": "Molletes al Gusto", "price": "$160" }, { "name": "Omelet", "price": "$175" }, { "name": "Enfrijoladas Mayas", "price": "$200" }, { "name": "Enchiladas Verdes", "price": "$220" }, { "name": "Tostones Divorciados", "price": "$195" }, { "name": "Chilaquiles \"El Pibinal\"", "price": "$195" }] },
+            { "icon": "⚖️", "category": "Kilos y Medios", "items": [{ "name": "Cochinita", "price": "Kilo $540" }, { "name": "Lechón", "price": "Kilo $590" }, { "name": "Poc - Chuc", "price": "Kilo $550" }, { "name": "Costilla Asada", "price": "Kilo $550" }, { "name": "Relleno Negro", "price": "Kilo $550" }, { "name": "Queso Relleno", "price": "Pieza $1,440" }] },
+            { "icon": "🌮", "category": "Tacos", "items": [{ "name": "Cochinita", "price": "$35" }, { "name": "Lechón", "price": "$35" }, { "name": "Poc - Chuc", "price": "$35" }, { "name": "Costilla Asada", "price": "$35" }, { "name": "Relleno Negro", "price": "$35" }, { "name": "Queso Relleno", "price": "$50" }] },
+            { "icon": "🥙", "category": "Panuchos y Salbutes", "items": [{ "name": "Cochinita", "price": "$65" }, { "name": "Lechón", "price": "$65" }, { "name": "Poc - Chuc", "price": "$65" }, { "name": "Costilla Asada", "price": "$65" }, { "name": "Relleno Negro", "price": "$65" }, { "name": "Queso Relleno", "price": "$65" }] },
+            { "icon": "🥖", "category": "Tortas y Tortitas", "items": [{ "name": "Cochinita", "price": "Torta $95" }, { "name": "Lechón", "price": "Torta $95" }, { "name": "Poc - Chuc", "price": "Torta $110" }, { "name": "Costilla Asada", "price": "Torta $110" }, { "name": "Relleno Negro", "price": "Torta $95" }, { "name": "Queso Relleno", "price": "Torta $120" }] },
+            { "icon": "🫓", "category": "Tostones", "items": [{ "name": "Cochinita", "price": "$95" }, { "name": "Lechón", "price": "$95" }, { "name": "Poc - Chuc", "price": "$95" }, { "name": "Relleno Negro", "price": "$95" }] },
+            { "icon": "🥤", "category": "Aguas y Refrescos", "items": [{ "name": "Aguas de Sabor", "price": "$45" }, { "name": "Refrescos", "price": "$45" }, { "name": "Jugos", "price": "$60" }, { "name": "Malteadas", "price": "$95" }, { "name": "Café", "price": "$45" }] },
+            { "icon": "🍰", "category": "Postres", "items": [{ "name": "Copa 43", "price": "$195" }, { "name": "Flan", "price": "$155" }, { "name": "Platanito a la Leña", "price": "$195" }] },
+            { "icon": "🥣", "category": "Extras", "items": [{ "name": "Cebolla Curtida", "price": "$95" }, { "name": "Dip de Cilantro", "price": "$120" }, { "name": "Frijol Colado", "price": "$120" }] }
+        ];
+
+        const chefMessage = document.getElementById('chef-message');
+        const homeGrid = document.getElementById('home-view');
+        const navWrapper = document.getElementById('nav-wrapper');
+        const categoryNav = document.getElementById('category-nav');
+        const menuContent = document.getElementById('menu-content');
+        const backContainer = document.getElementById('back-container');
+        const spicyLegend = document.getElementById('spicy-legend');
+        const indexFooter = document.getElementById('index-footer');
+
+        function init() {
+            menuData.forEach((cat, index) => {
+                const card = document.createElement('div');
+                card.className = 'home-card';
+                card.onclick = () => showCategory(index);
+                card.innerHTML = `<div class="grid-icon">${cat.icon}</div><div class="grid-text">${cat.category}</div>`;
+                homeGrid.insertBefore(card, indexFooter);
+
+                const btn = document.createElement('button');
+                btn.className = 'cat-btn';
+                btn.innerText = cat.category;
+                btn.onclick = () => showCategory(index);
+                categoryNav.appendChild(btn);
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.id = `cat-${index}`;
+                let html = `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
+                cat.items.forEach(item => {
+                    html += `<div class="item"><div class="item-info"><div class="item-name">${item.name}</div>${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}</div><div class="item-price">${item.price}</div></div>`;
+                });
+                section.innerHTML = html;
+                menuContent.appendChild(section);
+            });
+        }
+
+        function showCategory(index) {
+            chefMessage.style.display = 'none';
+            homeGrid.style.display = 'none';
+            menuContent.style.display = 'block';
+            navWrapper.style.display = 'flex';
+            backContainer.style.display = 'block';
+            spicyLegend.style.display = 'block';
+            
+            document.querySelectorAll('.cat-btn').forEach((b, i) => b.classList.toggle('active', i === index));
+            document.querySelectorAll('.category-section').forEach((s, i) => s.classList.toggle('active', i === index));
+            const activeBtn = document.querySelectorAll('.cat-btn')[index];
+            if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            window.scrollTo(0, 0);
+        }
+
+        function showHome() {
+            chefMessage.style.display = 'block';
+            homeGrid.style.display = 'grid';
+            menuContent.style.display = 'none';
+            navWrapper.style.display = 'none';
+            backContainer.style.display = 'none';
+            spicyLegend.style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function scrollNav(amt) { categoryNav.scrollBy({ left: amt, behavior: 'smooth' }); }
+        init();
+    </script>
+</body>
+</html>

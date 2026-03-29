@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú El Pibito</title>
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-blue: #1A4B84;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f9f9f9;
+            --text-main: #333;
+            --premium-gold: #D4AF37;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            background-image: url('images/fndpibito.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(26, 26, 26, 0.98);
+            text-align: center;
+            padding: 15px 15px 0 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 28px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            color: #D4AF37;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Botón Inferior */
+        .nav-wrapper {
+            display: none;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding: 5px 0;
+        }
+
+        .scroll-arrow {
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        nav {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 5px 0;
+            flex-grow: 1;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cat-btn.active {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        /* ESTILO PARA EL BOTÓN DE INICIO AL FINAL DE LA CUADRÍCULA */
+        .index-footer-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            margin-top: 10px;
+        }
+
+        .btn-index {
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-index:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 75, 132, 0.4);
+        }
+
+        .btn-index:active {
+            transform: scale(0.95);
+        }
+
+        /* CUADRÍCULA ADAPTATIVA */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .home-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .home-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        .home-card:active {
+            transform: scale(0.95);
+        }
+
+        .grid-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .grid-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            transition: color 0.3s;
+        }
+
+        .home-card:hover {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.3);
+        }
+
+        .home-card:hover .grid-text {
+            color: white;
+        }
+
+        .menu-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .sub-group { margin-bottom: 25px; }
+
+        .category-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .category-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .category-title {
+            color: var(--primary-red);
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-desc {
+            font-size: 14px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-info {
+            width: 75%;
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 2px;
+            color: var(--text-main);
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: var(--primary-blue);
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 16px;
+            text-align: right;
+            width: 25%;
+        }
+
+        /* TARJETAS DE PROTEÍNA GRID */
+        .protein-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 0 20px 0;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .protein-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .protein-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .protein-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+        }
+        .protein-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-bottom: 2px solid #eee;
+            background-color: #fff;
+        }
+        .protein-placeholder {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #eee;
+        }
+        .protein-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--text-main);
+            padding: 12px 10px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #b71c1c;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--dark-bg);
+            color: #ccc;
+            font-size: 12px;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        footer strong {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .social-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--primary-red);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* BOTÓN FLOTANTE HOME */
+        .home-btn-fixed {
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="images/logopibito.svg" alt="Logo Pibito" class="logo">
+            <div class="header-text">
+                <h1>EL PIBITO</h1>
+                <p class="subtitle">Arma el pibito a tu antojo</p>
+            </div>
+        </div>
+
+        <button id="main-home-btn" class="home-btn-fixed" onclick="showHome()" style="display:none;">🏠 Menú Principal</button>
+
+        <div class="nav-wrapper" id="nav-wrapper">
+            <button class="scroll-arrow" onclick="scrollNav(-150)">❮</button>
+            <nav id="category-nav"></nav>
+            <button class="scroll-arrow" onclick="scrollNav(150)">❯</button>
+        </div>
+    </header>
+
+    <div id="chef-message" style="text-align: center; margin: 20px auto 10px auto; font-size: 16px; color: var(--primary-blue); font-weight: bold; max-width: 800px; padding: 0 15px;">
+        <p>Martes a Sábado de 05:00 a 11:00pm</p>
+        <p style="font-style: italic;">by: Fernando Marrufo</p>
+    </div>
+
+    <div id="home-view" class="home-grid">
+        <div class="index-footer-container" id="index-footer">
+            <a href="index.html" class="btn-index">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="menu-container" id="menu-content"></div>
+
+    <footer>
+        <p>Todos los precios incluyen IVA. La propina no es obligatoria, se gana a través del buen servicio.</p>
+        <p>Se aceptan tarjetas (VISA, MASTERCARD y AMERICAN EXPRESS). El precio es el mismo pagando en efectivo o con
+            tarjeta.</p>
+    </footer>
+
+    <script>
+        const menuData = [
+    {
+        "icon": "🥩",
+        "category": "1. Elige tu Proteína",
+        "description": "Arma el pibito a tu antojo. Escoge la carne para tu preparación.",
+        "items": [
+            {
+                "name": "Asada",
+                "price": "",
+                "desc": "",
+                "image": "images/asada.png"
+            },
+            {
+                "name": "Ubre",
+                "price": "",
+                "desc": "",
+                "image": "images/ubre.png"
+            },
+            {
+                "name": "Tripa",
+                "price": "",
+                "desc": "",
+                "image": "images/tripa.png"
+            },
+            {
+                "name": "Cuerito",
+                "price": "",
+                "desc": "",
+                "image": "images/cuerito.png"
+            },
+            {
+                "name": "Longaniza",
+                "price": "",
+                "desc": "",
+                "image": "images/longaniza.png"
+            },
+            {
+                "name": "Tablita",
+                "price": "",
+                "desc": "",
+                "image": "images/tablita.png"
+            },
+            {
+                "name": "Costilla Asada a la Yucateca",
+                "price": "",
+                "desc": "",
+                "image": "images/costilla.png"
+            },
+            {
+                "name": "Poc-Chuc",
+                "price": "",
+                "desc": "",
+                "image": "images/pocchuc.png"
+            },
+            {
+                "name": "Suadero",
+                "price": "",
+                "desc": "",
+                "image": "images/suadero.png"
+            }
+        ]
+    },
+    {
+        "icon": "🌮",
+        "category": "2. Escoge la Preparación",
+        "description": "El precio varía según la forma de preparación de tu pibito.",
+        "items": [
+            {
+                "name": "Taco",
+                "price": "$25",
+                "desc": ""
+            },
+            {
+                "name": "Mestiza",
+                "price": "$35",
+                "desc": "Tortilla de maíz rellena de marqueta de frijol con queso gratinado."
+            },
+            {
+                "name": "Gringa",
+                "price": "$45",
+                "desc": "Tortilla de harina artesanal rellena de queso menonita."
+            },
+            {
+                "name": "Volcanes Frijoleros",
+                "price": "$75",
+                "desc": "Tortilla de maíz con queso menonita."
+            },
+            {
+                "name": "Torta",
+                "price": "$85",
+                "desc": "Bolillo artesanal con mayonesa, frijol, queso derretido, cebollas asadas y salsa tatemada."
+            }
+        ]
+    },
+    {
+        "icon": "🍺",
+        "category": "Cervezas",
+        "description": "",
+        "items": [
+            {
+                "name": "Indio (325 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Bohemia (355 ml)",
+                "price": "$60",
+                "desc": "Oscura, Clara o Cristal"
+            },
+            {
+                "name": "Modelo (355 ml)",
+                "price": "$60",
+                "desc": "Especial o Negra"
+            },
+            {
+                "name": "Victoria (355 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Tecate (325 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Tecate Light (325 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Corona Extra (355 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "XX Lager (325 ml)",
+                "price": "$55",
+                "desc": ""
+            },
+            {
+                "name": "XX Ambar (325 ml)",
+                "price": "$55",
+                "desc": ""
+            },
+            {
+                "name": "Pacífico Clara (355 ml)",
+                "price": "$60",
+                "desc": ""
+            },
+            {
+                "name": "Heineken (355 ml)",
+                "price": "$60",
+                "desc": ""
+            },
+            {
+                "name": "Ultra (355 ml)",
+                "price": "$60",
+                "desc": ""
+            },
+            {
+                "name": "Amstel Ultra (355 ml)",
+                "price": "$60",
+                "desc": ""
+            },
+            {
+                "name": "Michelob Ultra (355 ml)",
+                "price": "$60",
+                "desc": ""
+            }
+        ]
+    },
+    {
+        "icon": "🥤",
+        "category": "Aguas y Refrescos",
+        "description": "",
+        "items": [
+            {
+                "name": "Aguas de Sabor (500 ml)",
+                "price": "$45",
+                "desc": "Matalí, Maracuyá, Horchata, Naranja, Limonada"
+            },
+            {
+                "name": "Coca Cola (355 ml)",
+                "price": "$45",
+                "desc": ""
+            },
+            {
+                "name": "Coca Light (355 ml)",
+                "price": "$45",
+                "desc": ""
+            },
+            {
+                "name": "Coca Zero (355 ml)",
+                "price": "$45",
+                "desc": ""
+            },
+            {
+                "name": "Heineken 0.0 (250 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Topo Chico (355 ml)",
+                "price": "$50",
+                "desc": ""
+            },
+            {
+                "name": "Agua Natural (500 ml)",
+                "price": "$35",
+                "desc": ""
+            },
+            {
+                "name": "Café (355 ml)",
+                "price": "$45",
+                "desc": "Americano, Capuchino, Expresso"
+            }
+        ]
+    },
+    {
+        "icon": "🍮",
+        "category": "Postres",
+        "description": "",
+        "items": [
+            {
+                "name": "Flan con Jalea de Maracuyá",
+                "price": "$155",
+                "desc": ""
+            },
+            {
+                "name": "Napolitano de Chocolate con Helado",
+                "price": "$175",
+                "desc": ""
+            },
+            {
+                "name": "Merengón con Fresas",
+                "price": "$175",
+                "desc": ""
+            }
+        ]
+    }
+];
+
+        const chefMessage = document.getElementById('chef-message');
+        const homeGrid = document.getElementById('home-view');
+        const navWrapper = document.getElementById('nav-wrapper');
+        const categoryNav = document.getElementById('category-nav');
+        const menuContent = document.getElementById('menu-content');
+        const mainHomeBtn = document.getElementById('main-home-btn');
+        const indexFooter = document.getElementById('index-footer');
+
+        let selectedProtein = "";
+
+        function init() {
+            menuData.forEach((cat, index) => {
+                // NO mostrar "Escoge la Preparación" (índice 1) en el Inicio ni en el Menú superior
+                if (index !== 1) {
+                    // Tarjetas cuadrícula Inicio - SE INSERTAN ANTES DEL BOTÓN DE INICIO
+                    const card = document.createElement('div');
+                    card.className = `home-card`;
+                    card.onclick = () => showCategory(index);
+                    card.innerHTML = `<div class="grid-icon">${cat.icon}</div><div class="grid-text">${cat.category}</div>`;
+                    homeGrid.insertBefore(card, indexFooter);
+
+                    // Botones nav superior
+                    const btn = document.createElement('button');
+                    btn.className = `cat-btn`;
+                    btn.innerText = cat.category;
+                    btn.dataset.index = index;
+                    btn.onclick = () => showCategory(index);
+                    categoryNav.appendChild(btn);
+                }
+
+                // Secciones menú
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.id = `cat-${index}`;
+                let html = '';
+
+                if (index === 0) {
+                    // 1. Elige tu Proteína
+                    html += `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
+                    if (cat.description) html += `<p class="category-desc">${cat.description}</p>`;
+                    html += `<div class="protein-grid">`;
+                    cat.items.forEach(item => {
+                        let imgHtml = item.image ? `<img src="${item.image}" alt="${item.name}" class="protein-img" onerror="this.outerHTML='<div class=\'protein-placeholder\'>🥩</div>'">` : `<div class="protein-placeholder">🥩</div>`;
+                        // Se llama a selectProtein() en lugar de abrir una lista
+                        html += `<div class="protein-card" onclick="selectProtein('${item.name}')">${imgHtml}<div class="protein-name">${item.name}</div></div>`;
+                    });
+                    html += `</div>`;
+                } else if (index === 1) {
+                    // 2. Escoge la Preparación (Se llenará dinámicamente al hacer clic en una proteína)
+                } else {
+                    // Cervezas, Aguas, Postres
+                    html += `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
+                    if (cat.description) html += `<p class="category-desc">${cat.description}</p>`;
+                    if (cat.items) {
+                        cat.items.forEach(item => {
+                            html += `<div class="item"><div class="item-info"><div class="item-name">${item.name}</div>${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}</div><div class="item-price">${item.price}</div></div>`;
+                        });
+                    }
+                }
+                section.innerHTML = html;
+                menuContent.appendChild(section);
+            });
+        }
+
+        // Función que arma el nombre (Taco de Asada) y pasa a la vista oculta
+        function selectProtein(name) {
+            selectedProtein = name;
+            const cat = menuData[1]; // Categoría de Preparación
+            const section = document.getElementById('cat-1');
+
+            let html = `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
+            html += `<p class="category-desc">Preparando con: <strong style="color: var(--primary-red); font-size: 16px;">${name}</strong></p>`;
+
+            // Botón de regresar
+            html += `<button class="back-btn" onclick="showCategory(0)">⬅ Cambiar Proteína</button>`;
+
+            cat.items.forEach(item => {
+                // Armando el nombre completo (ej. "Taco de Asada")
+                let prepName = `${item.name} de ${name}`; 
+                html += `<div class="item"><div class="item-info"><div class="item-name">${prepName}</div>${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}</div><div class="item-price">${item.price}</div></div>`;
+            });
+
+            section.innerHTML = html;
+
+            // Mostrar la categoría oculta
+            showCategory(1);
+        }
+
+        function showCategory(index) {
+            chefMessage.style.display = 'none';
+            homeGrid.style.display = 'none';
+            menuContent.style.display = 'block';
+            navWrapper.style.display = 'flex';
+            mainHomeBtn.style.display = 'inline-block';
+
+            // Actualizar el menú superior
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.toggle('active', parseInt(b.dataset.index) === index);
+            });
+
+            // Mostrar la sección correcta
+            document.querySelectorAll('.category-section').forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+
+            // Centrar botón activo (si no es la categoría oculta)
+            const activeBtn = document.querySelector(`.cat-btn[data-index="${index}"]`);
+            if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+            window.scrollTo(0, 0);
+        }
+
+        function showHome() {
+            chefMessage.style.display = 'block';
+            homeGrid.style.display = 'grid';
+            menuContent.style.display = 'none';
+            navWrapper.style.display = 'none';
+            mainHomeBtn.style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function scrollNav(amt) { categoryNav.scrollBy({ left: amt, behavior: 'smooth' }); }
+
+        init();
+    </script>
+</body>
+
+</html>
