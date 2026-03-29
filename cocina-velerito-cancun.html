@@ -240,16 +240,14 @@
             font-size: 1.05rem;
         }
 
-        /* --- TARJETA DE BIENVENIDA DEL CHEF (NUEVO DISEÑO) --- */
+        /* --- TARJETA DE BIENVENIDA DEL CHEF --- */
         .chef-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border-left: 6px solid var(--premium-gold);
             border-radius: 12px;
             padding: 25px;
-            /* AQUÍ ESTÁ LA CLAVE: margin: 25px auto centra la tarjeta en la pantalla */
             margin: 25px auto; 
             max-width: 800px;
-            /* Agregamos un margen interno para móviles para que no toque los bordes */
             width: calc(100% - 40px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             position: relative;
@@ -257,7 +255,6 @@
             animation: fadeIn 1s ease-out;
         }
 
-        /* Decoración sutil de comillas en el fondo */
         .chef-card::after {
             content: "”";
             position: absolute;
@@ -306,15 +303,11 @@
             position: relative;
             z-index: 2;
             padding-left: 5px;
-            text-align: left; /* Mantiene el texto alineado a la izquierda */
+            text-align: left;
         }
 
-        .chef-text p {
-            margin-bottom: 8px;
-        }
-        .chef-text p:last-child {
-            margin-bottom: 0;
-        }
+        .chef-text p { margin-bottom: 8px; }
+        .chef-text p:last-child { margin-bottom: 0; }
 
         .chef-signature {
             text-align: right;
@@ -348,7 +341,7 @@
             border-radius: 16px;
             padding: 30px 15px;
             text-align: center;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
             border: 2px solid transparent;
             display: flex;
             flex-direction: column;
@@ -357,6 +350,7 @@
             gap: 15px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            min-height: 160px; /* EVITA QUE SE ENCOJAN */
         }
 
         .home-card:active { transform: scale(0.95); }
@@ -377,19 +371,21 @@
             transition: color 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 2;
         }
 
         .home-card.premium .grid-text { color: #b8860b; }
 
+        /* HOVER BÁSICO (ROJO) */
         .home-card:hover {
-            background: var(--primary-red);
+            background-color: var(--primary-red);
             border-color: var(--primary-red);
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(211, 47, 47, 0.35);
         }
 
         .home-card.premium:hover {
-            background: var(--premium-gold);
+            background-color: var(--premium-gold);
             border-color: var(--premium-gold);
             box-shadow: 0 15px 30px rgba(212, 175, 55, 0.35);
         }
@@ -397,6 +393,41 @@
         .home-card:hover .grid-text { color: white; }
         .home-card.premium:hover .grid-text { color: #1a1a1a; }
         .home-card:hover .grid-icon { transform: scale(1.15); }
+
+        /* --- ESTILOS PARA TARJETAS CON IMAGEN DE FONDO --- */
+        .home-card.has-bg {
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.85)), var(--bg-img);
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .home-card.has-bg:not(.premium) {
+            border-color: transparent;
+        }
+
+        .home-card.has-bg .grid-text {
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            font-size: 16px;
+        }
+
+        /* EFECTO HOVER PARA TARJETAS CON IMAGEN (ROJO) */
+        .home-card.has-bg:hover {
+            border-color: transparent;
+            transform: translateY(-8px) scale(1.02);
+            background-image: linear-gradient(rgba(211, 47, 47, 0.5), rgba(211, 47, 47, 0.85)), var(--bg-img);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.45); 
+        }
+
+        /* EFECTO HOVER PARA TARJETAS CON IMAGEN (PREMIUM/DORADO) */
+        .home-card.premium.has-bg:hover {
+            border-color: var(--premium-gold);
+            background-image: linear-gradient(rgba(212, 175, 55, 0.5), rgba(212, 175, 55, 0.85)), var(--bg-img);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.45);
+        }
 
         /* --- CONTENEDOR DEL MENÚ INTERIOR --- */
         .menu-container {
@@ -583,13 +614,11 @@
         🌶️ Picante Bajo &nbsp;|&nbsp; 🌶️🌶️ Picante Medio &nbsp;|&nbsp; 🌶️🌶️🌶️ Pide Extra Picante
     </div>
 
-    <!-- TÍTULO DE INSTRUCCIÓN PRINCIPAL -->
     <div class="page-intro" id="page-intro">
         <h2>Velerito Cancún</h2>
         <p>Cocina del mar en Laja, Leña y Carbón</p>
     </div>
 
-    <!-- TARJETA DEL CHEF MEJORADA -->
     <div class="chef-card" id="chef-message">
         <div class="chef-card-header">
             <div class="chef-icon">👨‍🍳</div>
@@ -618,6 +647,7 @@
                 category: "Ostiones Calidad Oysterland Prime",
                 description: "Nuestros ostiones son seleccionados con altos estándares de calidad, asegurando una experiencia inigualable.",
                 image: "images/calidad.png",
+                bgImage: "images/img-ostiones.jpg",
                 isPremium: true,
                 items: [
                     { name: "En su Concha Naturales", price: "$275", desc: "" },
@@ -635,6 +665,7 @@
             {
                 icon: "🌶️",
                 category: "Aguachiles",
+                bgImage: "images/img-aguachiles.jpg",
                 description: "Escoge una de las 3 opciones de preparación:<br>- Verde con Extracto de Chiles<br>- Negro con Chiles Secos Asados a las Brasas y Cacao Tabasqueño Tostado<br>- Coloradito con Chile Piquín",
                 items: [
                     { name: "Camarón", price: "$310", desc: "" },
@@ -647,6 +678,7 @@
             {
                 icon: "🐟",
                 category: "Ceviches",
+                bgImage: "images/img-ceviches.jpg",
                 description: "",
                 groups: [
                     {
@@ -677,6 +709,7 @@
             {
                 icon: "🌮",
                 category: "Tostadas de Pozol",
+                bgImage: "images/img-tostadas.jpg",
                 description: "",
                 items: [
                     { name: "Atún Laminado con Chimichurri Criollo", price: "$195", desc: "" },
@@ -688,6 +721,7 @@
             {
                 icon: "🥟",
                 category: "Empanadas",
+                bgImage: "images/img-empanadas.jpg",
                 description: "",
                 items: [
                     { name: "Quesos de Tabasco", price: "$85", desc: "" },
@@ -701,6 +735,7 @@
             {
                 icon: "🥙",
                 category: "Salbutes y Panuchos",
+                bgImage: "images/img-salbutes.jpg",
                 description: "",
                 groups: [
                     {
@@ -724,6 +759,7 @@
             {
                 icon: "🦐",
                 category: "Cocteles Estilo Progreso",
+                bgImage: "images/img-cocteles.jpg",
                 description: "",
                 items: [
                     { name: "Camarón", price: "$260 | $320", desc: "" },
@@ -735,6 +771,7 @@
             {
                 icon: "🫓",
                 category: "Tortillas Gruesas",
+                bgImage: "images/img-tortilla.jpg",
                 description: "",
                 items: [
                     { name: "Al Mojo de Ajo", price: "$225", desc: "" },
@@ -747,6 +784,7 @@
             {
                 icon: "🐠",
                 category: "Mojarras Criollas",
+                bgImage: "images/img-mojarras.jpg",
                 description: "",
                 items: [
                     { name: "Frita", price: "$365", desc: "" },
@@ -759,6 +797,7 @@
             {
                 icon: "🌮",
                 category: "Tacos de Mar",
+                bgImage: "images/img-tacos.jpg",
                 description: "",
                 items: [
                     { name: "Camarón Jalapeño con Tocino", price: "$160", desc: "" },
@@ -773,6 +812,7 @@
             {
                 icon: "🟡",
                 category: "Tlayudas Artesanales",
+                bgImage: "images/img-tlayudas.jpg",
                 description: "(rellenas con marqueta de frijol, chiltomate y queso de hebra)",
                 items: [
                     { name: "De Camarón", price: "$310", desc: "" },
@@ -784,6 +824,7 @@
             {
                 icon: "👨‍🍳",
                 category: "Especialidades Velerito",
+                bgImage: "images/img-especialidades.jpg",
                 description: "",
                 items: [
                     { name: "Espagueti 🌶️", price: "$325", desc: "(con crema al chiltepín y camarones)" },
@@ -811,6 +852,7 @@
             {
                 icon: "🍽️",
                 category: "Los Clásicos",
+                bgImage: "images/img-clasicos.jpg",
                 description: "(acompañados con marqueta de frijol, platanitos, arroz casero y ensalada)",
                 items: [
                     { name: "Filete de Pesca del Día Empanizado", price: "$465", desc: "" },
@@ -824,6 +866,7 @@
             {
                 icon: "🥘",
                 category: "Charolas Para Compartir En Familia",
+                bgImage: "images/img-charolas.jpg",
                 description: "(incluye servicio de totopos, tostadas y salsas)",
                 items: [
                     { name: "Ceviche Blanco Estilo Frontera", price: "$1,600 | $3,250", desc: "" },
@@ -847,6 +890,7 @@
             {
                 icon: "🍔",
                 category: "Hamburguesas",
+                bgImage: "images/img-hamburgesas.jpg",
                 description: "",
                 items: [
                     { name: "De Atún", price: "$210", desc: "" },
@@ -858,6 +902,7 @@
             {
                 icon: "🍰",
                 category: "Postres",
+                bgImage: "images/img-postres.jpg",
                 description: "",
                 items: [
                     { name: "Copa 43", price: "$225", desc: "(con helado de vainilla, cacao garapiñado y crema de licor 43)" },
@@ -872,6 +917,7 @@
             {
                 icon: "🥤",
                 category: "Bebidas",
+                bgImage: "images/img-bebidas.jpg",
                 description: "",
                 items: [
                     { name: "Refrescos (355ml)", price: "$45", desc: "(coca-cola clásica, light y zero, fanta, sidral mundet, squirt y manzanita peñafiel)" },
@@ -895,18 +941,28 @@
 
         function init() {
             menuData.forEach((cat, index) => {
+                
+                // --- LÓGICA DE TARJETAS CORREGIDA ---
                 const card = document.createElement('div');
-                card.className = `home-card ${cat.isPremium ? 'premium' : ''}`;
+                card.className = `home-card ${cat.isPremium ? 'premium' : ''} ${cat.bgImage ? 'has-bg' : ''}`;
                 card.onclick = () => showCategory(index);
-                card.innerHTML = `<div class="grid-icon">${cat.icon}</div><div class="grid-text">${cat.category}</div>`;
+
+                if (cat.bgImage) {
+                    card.style.setProperty('--bg-img', `url('${cat.bgImage}')`);
+                }
+
+                const iconHtml = cat.bgImage ? '' : `<div class="grid-icon">${cat.icon}</div>`;
+                card.innerHTML = `${iconHtml}<div class="grid-text">${cat.category}</div>`;
                 homeGrid.appendChild(card);
 
+                // --- BOTONES DE NAVEGACIÓN ---
                 const btn = document.createElement('button');
                 btn.className = `cat-btn ${cat.isPremium ? 'premium' : ''}`;
                 btn.innerHTML = `${cat.icon} &nbsp; ${cat.category}`;
                 btn.onclick = () => showCategory(index);
                 categoryNav.appendChild(btn);
 
+                // --- GENERACIÓN DEL CONTENIDO DE LA CATEGORÍA ---
                 const section = document.createElement('div');
                 section.className = 'category-section';
                 section.id = `cat-${index}`;

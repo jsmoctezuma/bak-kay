@@ -127,7 +127,6 @@
             width: 100%;
         }
 
-        /* Hover en azul para sección de Bebidas */
         .back-to-categories:hover {
             background: var(--primary-blue);
             border-color: var(--primary-blue);
@@ -181,7 +180,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
 
-        /* Tema Azul en Nav Buttons */
         .cat-btn:hover, .cat-btn.active {
             background: var(--primary-blue);
             border-color: var(--primary-blue);
@@ -198,7 +196,7 @@
 
         .page-intro h2 {
             font-size: clamp(2rem, 5vw, 2.6rem);
-            color: var(--primary-blue); /* Cambiado a Azul para Bebidas */
+            color: var(--primary-blue);
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -230,12 +228,13 @@
             }
         }
 
+        /* --- ESTILOS DE TARJETAS (CORREGIDOS) --- */
         .home-card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 16px;
             padding: 30px 15px;
             text-align: center;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
             border: 2px solid transparent;
             display: flex;
             flex-direction: column;
@@ -244,6 +243,7 @@
             gap: 15px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            min-height: 160px; /* ALTURA MÍNIMA */
         }
 
         .home-card:active { transform: scale(0.95); }
@@ -263,11 +263,12 @@
             transition: color 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 2;
         }
 
-        /* Hover Azul */
+        /* Hover Azul (Tarjetas normales) */
         .home-card:hover {
-            background: var(--primary-blue);
+            background-color: var(--primary-blue);
             border-color: var(--primary-blue);
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(26, 75, 132, 0.35);
@@ -275,6 +276,34 @@
 
         .home-card:hover .grid-text { color: white; }
         .home-card:hover .grid-icon { transform: scale(1.15); }
+
+        /* --- ESTILOS PARA TARJETAS CON IMAGEN DE FONDO --- */
+        .home-card.has-bg {
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.85)), var(--bg-img);
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .home-card.has-bg:not(.premium) {
+            border-color: transparent;
+        }
+
+        .home-card.has-bg .grid-text {
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            font-size: 16px;
+        }
+
+        /* EFECTO HOVER PARA TARJETAS CON IMAGEN -> Azul */
+        .home-card.has-bg:hover {
+            border-color: transparent;
+            transform: translateY(-8px) scale(1.02);
+            background-image: linear-gradient(rgba(26, 75, 132, 0.5), rgba(26, 75, 132, 0.85)), var(--bg-img);
+            box-shadow: 0 15px 30px rgba(26, 75, 132, 0.45); 
+        }
 
         /* --- NOTA DE DESCORCHE --- */
         .descorche-nota {
@@ -311,7 +340,6 @@
 
         .sub-group { margin-bottom: 40px; }
 
-        /* Títulos Internos Azules */
         .category-title {
             color: var(--primary-blue); 
             border-bottom: 3px solid var(--primary-blue);
@@ -348,9 +376,7 @@
             border-color: rgba(26, 75, 132, 0.25);
         }
 
-        .item-info { 
-            flex: 1; 
-        }
+        .item-info { flex: 1; }
 
         .item-name {
             font-weight: 800;
@@ -367,14 +393,13 @@
             line-height: 1.5;
         }
 
-        /* Corrección para que el precio largo no se rompa */
         .item-price {
             font-weight: 800;
-            color: var(--primary-red); /* Mantenemos precio en rojo para resaltar */
-            font-size: 15px; 
+            color: var(--primary-red);
+            font-size: 15px;
             text-align: right;
-            white-space: nowrap; 
-            flex-shrink: 0; 
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         @media (max-width: 480px) {
@@ -400,7 +425,7 @@
             color: #cbd5e1;
             font-size: 12px;
             margin-top: auto;
-            border-top: 4px solid var(--primary-blue); /* Borde azul para bebidas */
+            border-top: 4px solid var(--primary-blue);
             line-height: 1.6;
         }
 
@@ -468,10 +493,10 @@
     </footer>
 
     <script>
-        // Mismos datos exactos que me pasaste para Cancún, con los iconos mejorados que usamos en Tabasco.
         const menuData = [
             {
                 icon: "🥃", navTitle: "Vodka, Mezcal y Whisky",
+                bgImage: "images/img-vodka.jpg",
                 groups: [
                     {
                         title: "Vodka",
@@ -506,6 +531,7 @@
             },
             {
                 icon: "🌵", navTitle: "Tequila, Ginebra y Brandy", 
+                bgImage: "images/img-tequila.jpg", 
                 groups: [
                     {
                         title: "Tequila",
@@ -539,6 +565,7 @@
             },
             {
                 icon: "🍷", navTitle: "Ron, Licores y Vino",
+                bgImage: "images/img-vinos.jpg", 
                 groups: [
                     {
                         title: "Ron",
@@ -575,6 +602,7 @@
             },
             {
                 icon: "🍺", navTitle: "Cervezas",
+                bgImage: "images/img-cervezas.jpg", 
                 groups: [
                     {
                         title: "Cervezas",
@@ -597,6 +625,7 @@
             },
             {
                 icon: "🍹", navTitle: "Coctelería (Vino y Ron)",
+                bgImage: "images/img-cocteleria-vino.jpg", 
                 groups: [
                     {
                         title: "Vino y Sangrías",
@@ -621,7 +650,8 @@
                 ]
             },
             {
-                icon: "🍸", navTitle: "Coctelería (Vodka y Ginebra)", 
+                icon: "🍸", navTitle: "Coctelería (Vodka y Ginebra)",
+                bgImage: "images/img-cocteleria-vodka.jpg",
                 groups: [
                     {
                         title: "Vodka",
@@ -644,6 +674,7 @@
             },
             {
                 icon: "🌶️", navTitle: "Coctelería (Mezcal y Tequila)", 
+                bgImage: "images/img-cocteleria-mezcal.jpg",
                 groups: [
                     {
                         title: "Mezcal y Tequila",
@@ -660,6 +691,7 @@
             },
             {
                 icon: "☕", navTitle: "Carajillos",
+                bgImage: "images/img-carajillo.jpg",
                 groups: [
                     {
                         title: "Carajillos",
@@ -682,21 +714,28 @@
 
         function init() {
             menuData.forEach((cat, index) => {
-                // Tarjetas Home
+                
+                // --- LÓGICA DE TARJETAS (IGUAL QUE ALIMENTOS) ---
                 const card = document.createElement('div');
-                card.className = 'home-card';
+                card.className = `home-card ${cat.bgImage ? 'has-bg' : ''}`;
                 card.onclick = () => showCategory(index);
-                card.innerHTML = `<div class="grid-icon">${cat.icon}</div><div class="grid-text">${cat.navTitle}</div>`;
+
+                if (cat.bgImage) {
+                    card.style.setProperty('--bg-img', `url('${cat.bgImage}')`);
+                }
+
+                const iconHtml = cat.bgImage ? '' : `<div class="grid-icon">${cat.icon}</div>`;
+                card.innerHTML = `${iconHtml}<div class="grid-text">${cat.navTitle}</div>`;
                 homeGrid.appendChild(card);
 
-                // Botones Top Nav con Emojis y espacio 
+                // --- BOTONES NAV ---
                 const btn = document.createElement('button');
                 btn.className = 'cat-btn';
                 btn.innerHTML = `${cat.icon} &nbsp; ${cat.navTitle}`;
                 btn.onclick = () => showCategory(index);
                 categoryNav.appendChild(btn);
 
-                // Contenido de la sección
+                // --- CONTENIDO INTERIOR ---
                 const section = document.createElement('div');
                 section.className = 'category-section';
                 section.id = `cat-${index}`;

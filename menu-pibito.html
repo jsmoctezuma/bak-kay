@@ -283,12 +283,24 @@
             text-align: right;
         }
 
-        /* --- CUADRÍCULA PRINCIPAL (2x2 PERFECTA) CON MARGEN SUPERIOR AÑADIDO --- */
+        @media (max-width: 480px) {
+            .chef-card {
+                padding: 15px;
+                gap: 15px;
+            }
+            .chef-icon {
+                min-width: 50px;
+                height: 50px;
+                font-size: 26px;
+            }
+        }
+
+        /* --- CUADRÍCULA PRINCIPAL --- */
         .home-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            padding: 25px 20px 40px; /* Aquí le dimos 25px de aire arriba (antes era 10px) */
+            padding: 25px 20px 40px; 
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -314,6 +326,7 @@
             gap: 15px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            min-height: 160px; /* EVITA QUE SE ENCOJAN */
         }
 
         .home-card:active { transform: scale(0.95); }
@@ -333,6 +346,7 @@
             transition: color 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 2;
         }
 
         .home-card:hover {
@@ -344,6 +358,31 @@
 
         .home-card:hover .grid-text { color: white; }
         .home-card:hover .grid-icon { transform: scale(1.15); }
+
+        /* --- ESTILOS PARA TARJETAS CON IMAGEN DE FONDO --- */
+        .home-card.has-bg {
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.85)), var(--bg-img);
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            border-color: transparent;
+        }
+
+        .home-card.has-bg .grid-text {
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            font-size: 16px;
+        }
+
+        /* EFECTO HOVER PARA TARJETAS CON IMAGEN -> Rojo */
+        .home-card.has-bg:hover {
+            border-color: transparent;
+            transform: translateY(-8px) scale(1.02);
+            background-image: linear-gradient(rgba(211, 47, 47, 0.5), rgba(211, 47, 47, 0.85)), var(--bg-img);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.45); 
+        }
 
         /* --- BOTÓN DE RETORNO ESTILIZADO (PARA PROTEÍNAS) --- */
         .btn-bottom-return {
@@ -588,7 +627,7 @@
         <div class="top-navbar">
             <a href="index.html" class="back-link">
                 <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                Menú Principal
+                Inicio
             </a>
             
             <div class="nav-logo">
@@ -637,6 +676,7 @@
             {
                 "icon": "🥩",
                 "category": "1. Elige tu Proteína",
+                "bgImage": "images/img-proteinas.jpg",
                 "description": "Arma el pibito a tu antojo. Escoge la carne para tu preparación.",
                 "items": [
                     { "name": "Asada", "price": "", "desc": "", "image": "images/asada.png" },
@@ -665,6 +705,7 @@
             {
                 "icon": "🍺",
                 "category": "Cervezas",
+                "bgImage": "images/img-cervezas.jpg",
                 "description": "",
                 "items": [
                     { "name": "Indio (325 ml)", "price": "$50", "desc": "" },
@@ -686,6 +727,7 @@
             {
                 "icon": "🥤",
                 "category": "Aguas y Refrescos",
+                "bgImage": "images/img-bebidas.jpg",
                 "description": "",
                 "items": [
                     { "name": "Aguas de Sabor (500 ml)", "price": "$45", "desc": "Matalí, Maracuyá, Horchata, Naranja, Limonada" },
@@ -701,6 +743,7 @@
             {
                 "icon": "🍮",
                 "category": "Postres",
+                "bgImage": "images/img-postre.jpg",
                 "description": "",
                 "items": [
                     { "name": "Flan con Jalea de Maracuyá", "price": "$155", "desc": "" },
@@ -722,11 +765,18 @@
 
         function init() {
             menuData.forEach((cat, index) => {
+                // No dibujamos la categoría 2 ("Escoge Preparación") en la cuadrícula principal
                 if (index !== 1) {
                     const card = document.createElement('div');
-                    card.className = 'home-card';
+                    card.className = `home-card ${cat.bgImage ? 'has-bg' : ''}`;
                     card.onclick = () => showCategory(index);
-                    card.innerHTML = `<div class="grid-icon">${cat.icon}</div><div class="grid-text">${cat.category}</div>`;
+                    
+                    if (cat.bgImage) {
+                        card.style.setProperty('--bg-img', `url('${cat.bgImage}')`);
+                    }
+
+                    const iconHtml = cat.bgImage ? '' : `<div class="grid-icon">${cat.icon}</div>`;
+                    card.innerHTML = `${iconHtml}<div class="grid-text">${cat.category}</div>`;
                     homeGrid.appendChild(card);
 
                     const btn = document.createElement('button');
@@ -744,6 +794,7 @@
                 let html = '';
 
                 if (index === 0) {
+                    // Lógica para pintar las Proteínas
                     html += `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
                     if (cat.description) html += `<p class="category-desc">${cat.description}</p>`;
                     html += `<div class="protein-grid">`;
@@ -756,8 +807,9 @@
                     });
                     html += `</div>`;
                 } else if (index === 1) {
-                    // Categoria oculta, se arma al hacer clic
+                    // Categoria de Preparaciones, se arma al hacer clic en una proteína
                 } else {
+                    // Categorías normales (Cervezas, Aguas, Postres)
                     html += `<h2 class="category-title">${cat.icon} ${cat.category}</h2>`;
                     if (cat.description) html += `<p class="category-desc">${cat.description}</p>`;
                     if (cat.items) {
